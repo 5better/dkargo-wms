@@ -55,7 +55,7 @@ const menuItems: MenuItem[] = [
 ];
 
 function Lnb() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [expandedId, setExpandedId] = useState<number | undefined>(undefined);
 
   const handleToggleExpanded = () => {
@@ -141,6 +141,8 @@ const MainMenu = styled.li`
   font-weight: 700;
   line-height: 22px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
 `;
 
 const SubMenuList = styled.dl<{ activeSubMenu: boolean; itemCount?: number }>`

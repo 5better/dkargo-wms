@@ -4,7 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styled from "styled-components";
 import logoImg from "@/assets/images/logo_1.svg";
-import { usePostLogin } from "../../hooks/reactQuery/usePostLogin";
+import { usePostLogin } from "@/hooks/reactQuery/usePostLogin";
+import { useNavigate } from "react-router-dom";
 
 interface InputsProps {
   email: string;
@@ -31,39 +32,32 @@ const schema = yup.object().shape({
 function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const loginMutation = usePostLogin();
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<InputsProps>({
     resolver: yupResolver(schema),
   });
 
-  //쿠키
-  useEffect(() => {
-    const savedId = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("lastLoggedInUser"));
-    if (savedId) {
-      setValue("email", savedId.split("=")[1]);
-    }
-  }, [setValue]);
+  //TODO: 로그인 저장 localStorage, 로딩처리 마무리
 
   const onSubmit: SubmitHandler<InputsProps> = async (data) => {
     setIsLoading(true);
 
-    //     if (data.success) {
-    //       if (data.rememberId) {
-    //         document.cookie = `lastLoggedInUser=${data.email}; max-age=86400`;
-    //       }
-    //     }
-
-    await loginMutation.mutateAsync({
-      email: data.email,
-      password: data.password,
-    });
+    await loginMutation
+      .mutateAsync({
+        email: data.email,
+        password: data.password,
+      })
+      .then((r) => {
+        if (data.rememberId) {
+          // document.cookie = `lastLoggedInUser=${data.email}; max-age=86400`;
+        }
+        navigate("/receivings");
+      });
 
     setIsLoading(false);
   };
@@ -76,12 +70,17 @@ function Login() {
           <span>Warehouse Management System</span>
         </LogoBox>
         <span>아이디(이메일)</span>
-        <input {...register("email")} placeholder="아이디 입력" />
+        <input
+          {...register("email")}
+          placeholder="아이디 입력"
+          value={"master@sirloin.io"}
+        />
         <span>비밀번호</span>
         <input
           {...register("password")}
           type="password"
           placeholder="비밀번호 입력"
+          value={"qwer1234!"}
         />
         <label>
           <input
@@ -141,7 +140,7 @@ const LoginContainer = styled.form`
     .checkbox {
       width: 24px;
       height: 24px;
-      margin-right: 12px;
+      margin: 0 12px 0 0;
     }
   }
 `;

@@ -1,4 +1,12 @@
-export interface ReceivingsParams {
+export interface ReceivingsSummaryResult {
+  cancelReceivingIdList: number;
+  delayReceivingIdList: number;
+  doneReceivingIdList: number;
+  expectedReceivingIdList: number;
+  inProgressReceivingIdList: number;
+}
+
+export interface ReceivingsExpectParams {
   chooseIds: boolean;
   direction: string;
   endDate: string;
@@ -15,7 +23,7 @@ export interface ReceivingsParams {
   vendorName: string;
 }
 
-export interface ReceivingsResult {
+export interface ReceivingsExpectResult {
   arrivalQuantity: number;
   cancelQuantity: number;
   createdAt: string;
@@ -35,4 +43,13 @@ export interface ReceivingsResult {
   notYetArrivalQuantity: number;
   productCodeQuantity: number;
   productName: string;
+  productNames: string;
+  productQuantity: number;
+  receivingCode: string;
+  resendingQuantity: number;
+  scheduledDate: string;
+  status: string;
+  subsidiaryQuantity: number;
+  type: string;
+  vendorName: string;
 }

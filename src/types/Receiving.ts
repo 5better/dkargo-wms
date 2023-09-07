@@ -1,8 +1,8 @@
-export interface ReceivingExpectParams {
+export interface ReceivingsIdExpectParams {
   id: number;
 }
 
-export interface ReceivingDetailResult {
+export interface ReceivingsIdExpectResult {
   createdAt: string;
   creatorName: string;
   doneDate: string;
@@ -32,18 +32,10 @@ export interface ReceivingDetailResult {
   scheduledDate: string;
   status: string;
   type: string;
-  vendorNames: string;
+  vendorNames: string[];
 }
 
-export interface ReceivingMemoParams {
-  id: number;
-}
-
-export interface ReceivingMemoResult {
-  memo: string;
-}
-
-export interface ReceivingProdutParams {
+export interface ReceivingProductParams {
   page: number;
   productSetId: number;
   size: number;
@@ -52,38 +44,33 @@ export interface ReceivingProdutParams {
 }
 
 export interface ReceivingProductResult {
-  data: {
-    productDetail: {
-      code: string;
-      expirationDate: string;
-      id: number;
-      itemName: string;
-      locationCode: string;
-      manufactureDate: string;
-      marbleMeat: string;
-      price: number;
-      productMasterCode: string;
-      quantity: number;
-      rating: string;
-      releseDate: string;
-      serialNumber: string;
-      status: string;
-      traceabilityNo: string;
-      updatedAt: string;
-      vendorName: string;
-      weight: number;
-      workMethod: string;
-    };
-    pagingInfo: {
-      hasNext: boolean;
-      hasPrevious: boolean;
-      isEmpty: boolean;
-      isFirst: boolean;
-      isLast: boolean;
-      pageNumber: number;
-      pageSize: number;
-      totalElements: number;
-      totalPages: number;
-    };
+  productDetail: {
+    code: string;
+    expirationDate: string;
+    id: number;
+    itemName: string;
+    locationCode: string;
+    manufactureDate: string;
+    marbleMeat: string;
+    price: number;
+    productMasterCode: string;
+    quantity: number;
+    rating: string;
+    releseDate: string;
+    serialNumber: string;
+    status: string;
+    traceabilityNo: string;
+    updatedAt: string;
+    vendorName: string;
+    weight: number;
+    workMethod: string;
   };
+}
+
+export interface ReceivingMemoParams {
+  id: number;
+}
+
+export interface ReceivingMemoResult {
+  memo: string;
 }
