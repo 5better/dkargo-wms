@@ -4,8 +4,6 @@ export interface LoginParams {
 }
 
 export interface LoginResult {
-  code: number;
-  message: string;
-  timestamp: string;
-  data: LoginParams;
+  access_token: string;
+  refresh_token: string;
 }

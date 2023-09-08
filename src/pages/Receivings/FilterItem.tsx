@@ -9,7 +9,7 @@ interface FilterProps {
 function FilterItem({ img, title, number }: FilterProps) {
   return (
     <Wrapper>
-      <Icon src={img} />
+      <Icon src={`../../assets/icons/${img}`} />
       <Content>
         <span>{title}</span>
         <span>

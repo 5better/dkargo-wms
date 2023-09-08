@@ -30,7 +30,6 @@ const schema = yup.object().shape({
   rememberId: yup.boolean().default(false),
 });
 function Login() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const loginMutation = usePostLogin();
   const navigate = useNavigate();
 
@@ -42,11 +41,7 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
-  //TODO: 로그인 저장 localStorage, 로딩처리 마무리
-
   const onSubmit: SubmitHandler<InputsProps> = async (data) => {
-    setIsLoading(true);
-
     await loginMutation
       .mutateAsync({
         email: data.email,
@@ -54,12 +49,16 @@ function Login() {
       })
       .then((r) => {
         if (data.rememberId) {
-          // document.cookie = `lastLoggedInUser=${data.email}; max-age=86400`;
+          localStorage.setItem("lastLoggedInEmail", data.email);
+
+          setTimeout(() => {
+            localStorage.removeItem("lastLoggedInEmail");
+          }, 24 * 60 * 60 * 1000);
         }
+
+        localStorage.setItem("token", r.access_token);
         navigate("/receivings");
       });
-
-    setIsLoading(false);
   };
 
   return (
