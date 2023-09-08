@@ -1,4 +1,5 @@
 export interface PaginationResult<T> {
+  data: T[];
   pagingInfo: {
     hasNext: boolean;
     hasPrevious: boolean;

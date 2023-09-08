@@ -36,11 +36,11 @@ export interface ReceivingsIdExpectResult {
 }
 
 export interface ReceivingProductParams {
-  page: number;
+  page?: number;
   productSetId: number;
-  size: number;
-  sortColumns: string[];
-  status: string;
+  size?: number;
+  sortColumns?: string[];
+  status?: string;
 }
 
 export interface ReceivingProductResult {

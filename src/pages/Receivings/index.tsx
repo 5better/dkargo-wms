@@ -2,9 +2,36 @@ import { styled } from "styled-components";
 import { useGetReceivingsSummary } from "@/hooks/reactQuery/useGetReceivingsSummary";
 import FilterItem from "@/pages/Receivings/FilterItem";
 import { Table } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { useGetReceivingsExpect } from "@/hooks/reactQuery/useGetReceivingsExpect";
+import { ReceivingsExpectResult } from "@/types/Receivings";
+import dayjs from "dayjs";
+
+dayjs.locale("ko");
 
 function Receivings() {
   const { data: summaryData } = useGetReceivingsSummary();
+  const defaultParams = {
+    chooseIds: false,
+    direction: "ASC",
+    endDate: "",
+    page: 1,
+    searchDateType: "",
+    searchIds: [],
+    searchText: "",
+    searchTextType: "",
+    size: 1,
+    sortColumns: [],
+    startDate: "",
+    statusList: [],
+    typeList: [],
+    vendorName: "",
+  };
+  const {
+    data: expectData,
+    refetch,
+    isLoading,
+  } = useGetReceivingsExpect(defaultParams);
 
   if (summaryData) {
     const lengths = Object.values(summaryData).map((arr) => arr.length);
@@ -23,6 +50,119 @@ function Receivings() {
       title: titles[index],
       number: index === 0 ? sumOfNumbers : number,
     }));
+
+    const columns: ColumnsType<ReceivingsExpectResult> = [
+      {
+        title: "번호",
+        dataIndex: "id",
+        width: "5%",
+      },
+      {
+        title: "입고예정 코드",
+        dataIndex: "receivingCode",
+      },
+      {
+        title: "입고예정 일",
+        dataIndex: "scheduledDate",
+        sorter: true,
+        render: (date) => {
+          return <>{dayjs(date).format("YYYY.MM.DD")}</>;
+        },
+      },
+      {
+        title: "거래처",
+        dataIndex: "vendorName",
+        render: (name) => {
+          return <>{name}</>;
+        },
+      },
+      {
+        title: "입고구분",
+        dataIndex: "type",
+        render: (type) => {
+          let typeName = type;
+          if (type === "NORMAL") {
+            typeName = "일반입고";
+          } else if (type === "RETURN") {
+            typeName = "반품입고";
+          }
+          return <>{typeName}</>;
+        },
+      },
+      {
+        title: "진행상태",
+        dataIndex: "status",
+        render: (stat) => {
+          let statusType = stat;
+          if (stat === "ARRIVAL") {
+            statusType = "입고완료";
+          } else if (stat === "CANCEL_EXPECT") {
+            statusType = "입고예정취소";
+          }
+          return <>{statusType}</>;
+        },
+      },
+      {
+        title: "출고상품 명",
+        dataIndex: "productName",
+      },
+      {
+        title: "전체",
+        dataIndex: "",
+      },
+      {
+        title: "미입하",
+        dataIndex: "notYetArrivalQuantity",
+      },
+      {
+        title: "예정취소",
+        dataIndex: "cancelQuantity",
+      },
+      {
+        title: "회송/양품",
+        dataIndex: "resendingQuantity",
+      },
+      {
+        title: "입하",
+        dataIndex: "arrivalQuantity",
+      },
+      {
+        title: "입고",
+        dataIndex: "expectedQuantity",
+      },
+      {
+        title: "등록자",
+        dataIndex: "creatorName",
+      },
+      {
+        title: "등록일",
+        dataIndex: "createdAt",
+        sorter: true,
+        render: (date) => {
+          return <>{dayjs(date).format("YYYY.MM.DD")}</>;
+        },
+      },
+      {
+        title: "최종완료일",
+        dataIndex: "doneDate",
+        sorter: true,
+        render: (date) => {
+          if (date) {
+            return <>{dayjs(date).format("YYYY.MM.DD")}</>;
+          } else {
+            return "-";
+          }
+        },
+      },
+      {
+        title: "입고예정메모",
+        dataIndex: "memos",
+        render: (memo) => {
+          return <>{memo.length}</>;
+        },
+      },
+    ];
+
     return (
       <Wrapper>
         <FilterContainer>
@@ -59,7 +199,12 @@ function Receivings() {
           </li>
         </SearchContainer>
         <TableContainer>
-          <Table />
+          <Table
+            columns={columns}
+            dataSource={Array.isArray(expectData) ? expectData : []}
+            loading={isLoading}
+            rowKey={(render) => render.id}
+          />
         </TableContainer>
       </Wrapper>
     );

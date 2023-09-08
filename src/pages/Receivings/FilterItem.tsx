@@ -9,7 +9,7 @@ interface FilterProps {
 function FilterItem({ img, title, number }: FilterProps) {
   return (
     <Wrapper>
-      <Icon src={`../../assets/icons/${img}`} />
+      {/* <Icon src={`../../assets/icons/${img}`} /> */}
       <Content>
         <span>{title}</span>
         <span>
@@ -22,7 +22,8 @@ function FilterItem({ img, title, number }: FilterProps) {
 
 const Wrapper = styled.div`
   display: flex;
-  flex: 1 1;
+  gap: 28px;
+  cusor: pointer;
 `;
 
 const Icon = styled.img`
@@ -35,9 +36,16 @@ const Content = styled.div`
   font-size: 14px;
   font-weight: 500;
 
+  span {
+    display: flex;
+    align-items: flex-end;
+  }
+
   legend {
     color: #2550d3;
     font-size: 24px;
+    font-weight: 500;
+    margin-right: 4px;
   }
 `;
 

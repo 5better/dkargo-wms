@@ -86,7 +86,7 @@ function Lnb() {
               onClick={() => handleToggleSubMenu(menuItem.id)}
             >
               {menuItem.title}
-              {expandedId && menuItem.subMenu && (
+              {/* {expandedId && menuItem.subMenu && (
                 <SubMenuList
                   activeSubMenu={true}
                   itemCount={menuItem.subMenu.length}
@@ -95,7 +95,7 @@ function Lnb() {
                     <SubMenuItem key={subIndex}>{subMenuItem}</SubMenuItem>
                   ))}
                 </SubMenuList>
-              )}
+              )} */}
             </MainMenu>
           ))}
         </ul>
