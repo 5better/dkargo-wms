@@ -35,13 +35,13 @@ function Receivings() {
 
   if (summaryData) {
     const lengths = Object.values(summaryData).map((arr) => arr.length);
-    const sumOfNumbers = lengths.slice(1).reduce((a, b) => a + b, 0);
+    const sumOfNumbers = lengths.reduce((a, b) => a + b, 0);
     const totalLengths = [sumOfNumbers, ...lengths];
     const titles = [
       "전체",
       "입고예정",
-      "당일 입고예정 취소",
       "입고 진행중",
+      "당일 입고예정 취소",
       "당일 입고완료",
       "입고지연",
     ];
@@ -176,27 +176,61 @@ function Receivings() {
           ))}
         </FilterContainer>
         <SearchContainer>
-          <li>
-            <span>조회기간</span>
+          <span>조회기간</span>
+          <div>
             <select>
               <option>등록일자</option>
               <option>입고예정일</option>
               <option>최종완료일</option>
             </select>
-          </li>
-          <li>
-            <button>오늘</button>
-            <button>일주일</button>
-            <button>1개월</button>
-            <button>3개월</button>
-            <button>12개월</button>
-          </li>
-          <li>검색</li>
-          <li>진행상태</li>
-          <li>
+            <input type="date"></input>
+            <PeriodButton>
+              <button>오늘</button>
+              <button>일주일</button>
+              <button>1개월</button>
+              <button>3개월</button>
+              <button>12개월</button>
+            </PeriodButton>
+          </div>
+          <SearchBox>
+            <span>검색</span>
+            <div>
+              <select>
+                <option>입고예정 코드</option>
+                <option>출고상품명</option>
+                <option>출고상품코드</option>
+                <option>시리얼번호</option>
+                <option>등록자</option>
+                <option>메모내용</option>
+              </select>
+              <input placeholder="검색어 입력"></input>
+            </div>
+            <span>진행상태</span>
+            <div>
+              <select>
+                <option>전체</option>
+                <option>입고예정</option>
+              </select>
+            </div>
+            <span>거래처</span>
+            <div>
+              <select>
+                <option>전체</option>
+                <option>입고예정</option>
+              </select>
+            </div>
+            <span>입고구분</span>
+            <div>
+              <select>
+                <option>전체</option>
+                <option>입고예정</option>
+              </select>
+            </div>
+          </SearchBox>
+          <div>
             <button>검색</button>
             <button>초기화</button>
-          </li>
+          </div>
         </SearchContainer>
         <TableContainer>
           <Table
@@ -218,6 +252,9 @@ const Wrapper = styled.div`
   padding: 20px 26px;
   background-color: #f3f3f3;
   border: 1px solid #999;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 `;
 
 const FilterContainer = styled.div`
@@ -230,8 +267,32 @@ const FilterContainer = styled.div`
   border: 1px solid #d9d9d9;
 `;
 
-const SearchContainer = styled.ul`
+const SearchContainer = styled.div`
   height: 245px;
+  padding: 20px 25px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+
+  button {
+    padding: 12px 24px;
+    border: 1px solid #9ea4aa;
+  }
+`;
+
+const PeriodButton = styled.div`
+  display: flex;
+  gap: 10px;
+
+  button {
+    background-color: #e8ebed;
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: none;
+  }
+`;
+
+const SearchBox = styled.div`
+  display: flex;
 `;
 
 const TableContainer = styled.div``;
